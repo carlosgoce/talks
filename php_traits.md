@@ -78,13 +78,17 @@ trait Indexable {
         return view($this->model . '.index', $all);
     }
 }
+```
 
+```php
 class ProductController extends BaseController
 {
     use App\Traits\Indexable;
     protected $model = 'product';
 }
+```
 
+```php
 class UserController extends BaseController
 {
     use App\Traits\Indexable;
