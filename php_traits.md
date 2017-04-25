@@ -1,4 +1,6 @@
 <!-- $theme: gaia -->
+<!-- $size: 4:3 -->
+<!-- $fontSize: 110px -->
 
 Traits
 ======
@@ -6,18 +8,17 @@ Traits
 En 5 minutos
 
 
+# ![](https://pbs.twimg.com/profile_images/786689075323502592/_4mWG7pP.jpg)
 
-- Ejemplos de código son pseudocódigo el objetivo principal es mostrar como utilizar los Trait
 
-
-##### by [@carlosgoce](https://twitter.com/carlosgoce)
+##### [@carlosgoce](https://twitter.com/carlosgoce)
 
 ###### Initios
 
 
 ---
 
-# ¿Que es un trait?
+# ¿Trait?
 
 
 >  mecanismo de reutilización de código
@@ -25,7 +26,20 @@ En 5 minutos
 - PHP >= 5.4
 - Traducibles como `rasgos` (phpnet) / `tratos`
 
-Pero mejor veámoslo con ejemplos
+Nos permiten realizar una especie de copy&paste de nuestro código entre las distintas clases
+
+---
+
+# Ejemplo
+
+```
+<?php
+
+trait {
+
+}
+```
+
 
 ---
 
