@@ -1,49 +1,51 @@
-<!-- $theme: gaia -->
-<!-- $size: 4:3 -->
-<!-- $fontSize: 110px -->
+---
+title: PHP Traits
+---
 
-Traits
-======
+# Traits
+### En 5 minutos
+###### phpvigo
 
-En 5 minutos
-
-
-# ![](https://pbs.twimg.com/profile_images/786689075323502592/_4mWG7pP.jpg)
-
-
-##### [@carlosgoce](https://twitter.com/carlosgoce)
-
-###### Initios
+<p>[@carlosgoce](https://twitter.com/carlosgoce)</p>
+<small>Developer @ Initios</small>
 
 
 ---
 
-# ¿Trait?
+## ¿Trait?
 
+* Mecanismo de reutilización de código (phpnet)
+* Disponible desde PHP 5.4
 
->  mecanismo de reutilización de código
-
-- PHP >= 5.4
-- Traducibles como `rasgos` (phpnet) / `tratos`
-
-Nos permiten realizar una especie de copy&paste de nuestro código entre las distintas clases
 
 ---
 
-# Ejemplo
+### Ejemplo básico
 
-```
-<?php
+```php
+trait MiPrimerTrait {
+    public $mensaje = 'Hola';
 
-trait {
-
+    public function saludar() {
+        echo $this->mensaje;
+    }
 }
 ```
 
+```php
+class Persona {
+    use MiPrimerTrait;
+}
+
+$persona = new Persona();
+$persona->saludar();
+# Hola
+```
+
 
 ---
 
-### Típico controlador
+##### Código duplicado sin traits
 
 ```php
 class ProductController extends BaseController
@@ -53,9 +55,9 @@ class ProductController extends BaseController
         return view('product.index', \Product:all());
     }
 }
+```
 
-# Código duplicado
-
+```php
 class UserController extends BaseController
 {
     public function index()
@@ -67,32 +69,32 @@ class UserController extends BaseController
 
 ---
 
-### Con traits
+### Refactor con traits
 
 ```php
-trait Indexable { # Sufijo `able`
+trait Indexable {
     public function index() {
         $all = $this->model::all();
-        return view(get_class($this->name) . '.index');
+        return view($this->model . '.index', $all);
     }
 }
 
 class ProductController extends BaseController
 {
     use App\Traits\Indexable;
-    protected $name = \Product::class;
+    protected $model = 'product';
 }
 
 class UserController extends BaseController
 {
     use App\Traits\Indexable;
-    protected $name = \User::class;
+    protected $model = 'user';
 }
 ```
 
 ---
 
-### ¿Por qué no?
+#### CRUD Controller con Traits
 
 
 ```php
@@ -103,8 +105,8 @@ class ProductController extends BaseController
     use App\Traits\Editable;
     use App\Traits\Storable;
     use App\Traits\Deletable;
-    
-    $model = \Product::class;
+
+    $model = 'product';
 }
 
 ```
@@ -114,52 +116,97 @@ class ProductController extends BaseController
 ### Traits que usan traits
 
 ```php
+namespace \App\Traits;
+
 trait CRUDable {
-    use App\Traits\Indexable;
-    use App\Traits\Editable;
-    use App\Traits\Storable;
-    use App\Traits\Deletable;
+    use Indexable;
+    use Editable;
+    use Storable;
+    use Deletable;
 }
 ```
 
-
 ```php
+use App\Traits\CRUDable;
+
 class ProductController extends BaseController {
-    use App\Traits\CRUDable;
+    use CRUDable;
     $model = \Product::class;
 }
 ```
 
 ---
 
-# Interfaces
-##### Pequeño recordatorio de interfaces (más conocidas)
-
-- Qué implementar, no cómo. Nos obliga a cumplir su contrato
+#### Ejemplo avanzado
 
 ```php
-# Interfaz BuiltIn
-Countable {
-    abstract public int count ( void )
-}
-
-class Vehiculo implements Countable {
-    $ruedas = 4;
-
-    public function count() 
+trait Cacheable
+{
+    public function __call($name, $arguments)
     {
-        return $this->numeroRuedas;
+        $cacheKey = get_class($this) . $name;
+
+        if ( array_key_exists($name, $this->cacheableMethods) ) {
+            return Cache::getOrSet($cacheKey, $this->minutes, function() { ... });
+        }
+
+        return call_user_func_array(array($this, $name), $arguments);
     }
 }
 ```
 
-> *Notice: Ruler (`<hr>`) is not displayed in Marp.*
+```php
+<?php
+class User extends SomeORM {
+    use Cacheable;
+
+    public $cacheableMethods = ['comments';
+
+    public function comments() { # consulta muy lenta }
+}
+```
 
 ---
 
-## Gracias! :smile:
+### Ejemplos Laravel
 
-### https://github.com/carlosgoce/talks
+- Authorizable
+- CanResetPassword
+- Confirmable
+- HasNotifications
+- Macroable
+- Notifiable
+- RedirectsUsers
+- SoftDeletes
 
-&copy; 2017 [Carlos González Goce](https://twitter.com/carlosgoce)
-PHPVigo, Abril 2017
+Etc etc etc.
+
+---
+
+### Sobreescritura
+
+```php
+class RestrictedUser
+{
+    use Authorizable {
+        can as parentCan;
+    };
+
+    public function can($ability, $arguments = array()) {
+        if ($ability === 'delete post') {
+            return false;
+        }
+
+        return $this->parentCan($ability, $arguments);
+    }
+}
+```
+
+---
+
+## Gracias
+
+##### https://github.com/carlosgoce/talks
+
+[Carlos González Goce](https://twitter.com/carlosgoce)
+@ PHPVigo, Abril 2017
