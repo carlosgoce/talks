@@ -131,7 +131,7 @@ use App\Traits\CRUDable;
 
 class ProductController extends BaseController {
     use CRUDable;
-    $model = \Product::class;
+    $model = 'product';
 }
 ```
 
