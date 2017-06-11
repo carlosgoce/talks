@@ -33,7 +33,7 @@ Crear composer.json con tu estrategia/s
 ```json
 {
     "autoloading": {
-        "classmap": ["models/", "mislibrerias/"]
+        "classmap": ["models/", "mislibrerias/"],
         "files": ["helpers/consultas.php"]
     }
 }
