@@ -6,5 +6,5 @@ Made with:
 
 ```bash
 npm install -g reveal-md
-reveal-md
+reveal-md -w
 ```
