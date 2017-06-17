@@ -15,7 +15,7 @@ title: ¡NO sin Composer!
 1. Autocarga ficheros PHP (no más require/include)
     * Estrategias
     * Namespaces y [PSR-4](http://www.php-fig.org/psr/psr-4/)
-2. Gestionar depenencias
+2. Gestionar dependencias
     * Composer.lock
     * Packagist
 3. Crear nuestras propias librerías
@@ -180,3 +180,30 @@ new QueueMessage();
 
 - ¿En que ruta deberían estar los ficheros?
 - Como lanzaríamos una excepción en fichero C?
+
+---
+
+### Gestión de dependencias
+
+<small>Las definimos en composer.json</small>
+
+```json
+{
+    "php": ">=5.6.4",
+    "require": {
+        "illuminate/support": "@stable",
+        "jstayton/google-maps-geocoder": "^2.4",
+        "league/csv": "^8.0",
+    },
+    "require-dev": {
+        "laravel-tinker": "dev-master"
+    }
+}
+```
+
+Sólo nos queda
+
+```bash
+composer install
+composer install --no-dev  # para producción
+```
