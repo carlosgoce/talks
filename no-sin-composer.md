@@ -223,3 +223,42 @@ $collection = new Illuminate\Support\Collection([[1, 2, 3]]);
 $writer = new League\Csv\Writer::createFromPath('fichero.csv');
 $writer->insertAll($collection);
 ```
+
+---
+
+### Composer.lock
+
+Tras hacer una instalación inicial composer nos generará un fichero composer.lock
+
+```
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "hash": "dd33e133dd4b85a5bb022156df0dc3a0",
+    "content-hash": "f56d04d420c56813a824b3f7b68ff352",
+    "packages": [
+        {
+            "name": "davejamesmiller/laravel-breadcrumbs",
+            "version": "3.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/davejamesmiller/laravel-breadcrumbs.git",
+                "reference": "6ca5a600003ecb52a5b5af14dad82033058604e1"
+            },
+...
+```
+
+---
+
+Cuando hagamos *composer install* con un composer.lock presente, siempre nos instalará lo que indique
+el composer.lock, no hará caso a composer.json.
+
+<hr />
+
+Si hemos modificado nuestro composer.json, añadido nuevas dependencias, o simplemente queremos actualizarlo
+lanzaremos el comando
+
+```composer update```
