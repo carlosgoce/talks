@@ -206,4 +206,20 @@ Sólo nos queda
 ```bash
 composer install
 composer install --no-dev  # para producción
+# Paquetes y dependencias en la carpeta vendor
+```
+
+---
+
+### Listo para Utilizar
+
+```php
+<?php
+# Incluímos composer
+require 'vendor/autoload.php';
+
+# Composer encuentra las clases por nosotros
+$collection = new Illuminate\Support\Collection([[1, 2, 3]]);
+$writer = new League\Csv\Writer::createFromPath('fichero.csv');
+$writer->insertAll($collection);
 ```
