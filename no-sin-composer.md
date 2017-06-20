@@ -32,6 +32,21 @@ revealOptions:
 
 ---
 
+# ¿Composer?
+
+Algunos gestores de dependencias
+
+<table>
+    <tr><th>NodeJS</th><td>npm</td><td>2010</td></tr>
+    <tr><th>Ruby</th><td>rubygems</td><td>2004</td></tr>
+    <tr><th>Python</th><td>pip</td><td>2011</td></tr>
+    <tr><th>...</th><td>...</td><td>...</td></tr>
+    <tr><th>PHP</th><td>pear</td><td>1999</td></tr>
+    <tr><th>PHP</th><td>composer</td><td>2012</td></tr>
+</table>
+
+---
+
 # Autocarga
 
 ---
@@ -231,8 +246,9 @@ new QueueMessage();
 
 Problemas:
   - ¿Cómo actualizarlo?
-  - ¿Cómo desplegarlo?
-  - ¿Cómo reutilizarlo?
+  - ¿Cómo reutilizarlo en otros proyectos?
+  - ¿Cómo instalar dependencias de dependencias?
+  - ...
 
 ---
 
