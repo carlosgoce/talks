@@ -19,7 +19,7 @@ revealOptions:
 
 ---
 
-1. Autocarga ficheros PHP (no más require/include)
+1. Autocarga ficheros PHP
     * Estrategias
     * Namespaces y [PSR-4](http://www.php-fig.org/psr/psr-4/)
 2. Gestionar dependencias
