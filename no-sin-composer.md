@@ -15,26 +15,56 @@ revealOptions:
 
 ---
 
+# Mapa
 
-## Mapa
+---
 
 1. Autocarga ficheros PHP (no más require/include)
     * Estrategias
     * Namespaces y [PSR-4](http://www.php-fig.org/psr/psr-4/)
 2. Gestionar dependencias
     * Composer.lock
-    * Packagist
+    * [Packagist](https://packagist.org/)
 3. Crear nuestras propias librerías
     * [Versionamiento Semántico](http://semver.org/lang/es/)
     * Publicación
 
-Bonus: Install + CLI + composer.json + Ejercicios
+---
+
+# Autocarga
 
 ---
 
-## Autocarga
+## Método *Old School*
 
-Crear composer.json con tu estrategia/s
+```bash
+- project
+  - index.php
+  - helpers.php
+  - queries.php
+```
+
+```php
+<?php # index.php
+
+# Primero cargamos las librerías
+
+require_once 'helpers.php';
+require_once 'queries.php';
+
+# Código del proyecto
+```
+
+<aside class="notes">
+    No hay forma de cargar únicamente una clase u otra en función de la request.
+    Siempre se cargan todos los ficheros.
+</aside>
+
+---
+
+## Método Composer
+
+Define en composer.json la estrategia/s de autocarga
 
 ```json
 {
@@ -45,25 +75,26 @@ Crear composer.json con tu estrategia/s
 }
 ```
 
-Lanzar <i>composer dump-autoload</i> para que composer genere su mapa de ficheros/clases
+---
 
-Por último incluye el fichero "vendor/autoload.php" en tu fichero de entrada del proyecto (habitualmente index.php).
+## Inicializa Composer
+
+```php
+<?php  # index.php
+require 'vendor/autoload.php';
+
+# La clase Query es cargada automáticamente
+Query::products->all();
+```
 
 
 ---
 
-### Estrategias
+# Estrategias
 
 - Classmap
 - Files
 - PSR-4
-
-Para refrescar el autoloading podemos lanzar
-
-```
-composer dump-autoload
-composer dump-autoload --optimize  # para producción
-```
 
 ---
 
@@ -78,7 +109,8 @@ composer dump-autoload --optimize  # para producción
 }
 ```
 
-Busca clases escaneando los ficheros de las carpetas y/o ficheros indicados
+Busca clases escaneando los ficheros de las carpetas y/o ficheros indicados.
+
 El resultado se guarda en vendor/composer/autoload_classmap.php
 
 ---
@@ -95,20 +127,15 @@ El resultado se guarda en vendor/composer/autoload_classmap.php
 ```
 
 Útil para ficheros de funciones.
-No abusar porque estos ficheros se cargan siempre.
 
-Equivalente a
-
-```php
-require 'src/MyLibrary/functions.php';
-```
+<small>Usar con cautela, estos ficheros se cargan <u>siempre.</u></small>
 
 ---
 
 ### Estrategias
 ##### PSR-4
 
-El estandard de toda librería actual
+Método recomendado para cargar clases
 
 ```json
 {
@@ -118,12 +145,8 @@ El estandard de toda librería actual
 }
 ```
 
-Se indica que una carpeta está utilizando PSR-4, indicándole su Namespace.
-
-<small>El fichero está guardado en "src/Service/EmailService.php"</small>
-
 ```
-<?php
+<?php # src/Service/EmailService.php
 class MyLibrary\Service\EmailService {
     ...
 }
@@ -133,21 +156,32 @@ class MyLibrary\Service\EmailService {
 
 ---
 
-### PSR-4
+### Refrescar Autoloading
 
-Ver Ejemplos de PSR-4
+```
+composer dump-autoload
+composer dump-autoload --optimize  # para producción
+```
 
-### Namespaces?
+---
+
+### Namespaces
 
 ```
 <?php
+require 'libs/SwiftMailer/Message.php';
+require 'entidades/Message.php';
+
+# Podríamos estar cargando 2 clases con mismo nombre
 class Message {}
 class Message {}
 
 new Message();
 ```
 
-<small>Fatal error: Cannot redeclare class Message...</small>
+<small>
+> Fatal error: Cannot redeclare class Message..
+</small>
 
 ---
 
@@ -160,13 +194,9 @@ class Message {}
 ```php
 <?php  # fichero B
 namespace PHPVigo\Queue;
-
 class Message {}
 
-# Está en el namespace actual
 new Message();
-
-# Está en otro namespace
 new \PHPVigo\Service\Message();
 
 ```
@@ -180,18 +210,34 @@ use PHPVigo\Service\Message as Message;
 
 new Message();
 new QueueMessage();
+
 ```
 
+<aside class="notes">
+    <p>¿En qué ruta deberían estar los ficheros?</p>
+    <p>¿Como lanzaríamos una excepción en fichero C?</p>
+</aside>
+
 ---
 
-- ¿En que ruta deberían estar los ficheros?
-- Como lanzaríamos una excepción en fichero C?
+# Gestión de dependencias
 
 ---
 
-### Gestión de dependencias
+## Método *Old School*
 
-<small>Las definimos en composer.json</small>
+> Nos bajamos un zip de "por ahí" y lo descomprimimos en nuestro proyecto
+
+Problemas:
+  - ¿Cómo actualizarlo?
+  - ¿Cómo desplegarlo?
+  - ¿Cómo reutilizarlo?
+
+---
+
+## Método Composer
+
+<small>composer.json</small>
 
 ```json
 {
@@ -207,7 +253,7 @@ new QueueMessage();
 }
 ```
 
-Sólo nos queda
+<small>Instalación</small>
 
 ```bash
 composer install
@@ -217,7 +263,10 @@ composer install --no-dev  # para producción
 
 ---
 
-### Listo para Utilizar
+### Importamos el autoloader de Composer
+
+y a trabajar
+
 
 ```php
 <?php
@@ -232,15 +281,9 @@ $writer->insertAll($collection);
 
 ---
 
-¿Donde encuentra composer las dependencias?
-
-- Por defecto, en el repositorio oficial, **packagist.org**
-
----
-
 ### Composer.lock
 
-Tras hacer una instalación inicial composer nos generará un fichero composer.lock
+<small>Generado tras una instalación o actualización</small>
 
 ```
 {
@@ -263,14 +306,86 @@ Tras hacer una instalación inicial composer nos generará un fichero composer.l
 ...
 ```
 
----
-
+<aside class="notes">
 Cuando hagamos *composer install* con un composer.lock presente, siempre nos instalará lo que indique
 el composer.lock, no hará caso a composer.json.
 
 <hr />
 
 Si hemos modificado nuestro composer.json, añadido nuevas dependencias, o simplemente queremos actualizarlo
-lanzaremos el comando
+lanzaremos el comando **composer update**
+</aside>
 
-```composer update```
+---
+
+# packagist.org
+
+El repositorio oficial de composer.
+
+<img data-src="resources/packagist-logo.png" style="width: 600px;">
+
+---
+
+# Crear tu propia librería
+
+Y subirla a packagist.org
+
+---
+
+### composer.json para librerías
+
+##### Ejemplo extraído de [league/csv](http://csv.thephpleague.com)
+
+```json
+
+{
+    "name": "league/csv",
+    "type": "library",
+    "description" : "Csv data manipulation made easy in PHP",
+    "keywords": ["csv", "import", "export", "read"],
+    "license": "MIT",
+    "homepage" : "http://csv.thephpleague.com",
+    "require": {
+        "php" : ">=7.0.10"
+        ...
+    },
+    "require-dev": {
+        "phpunit/phpunit" : "^6.0",
+        ...
+    },
+    "autoload": {
+        "psr-4": {
+            "League\\Csv\\": "src"
+        },
+        "files": ["src/functions_include.php"]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "LeagueTest\\Csv\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "phpunit --coverage-text; php-cs-fixer fix -v --diff --dry-run --allow-risky=yes;",
+        "phpunit": "phpunit --coverage-text",
+        "phpcs": "php-cs-fixer fix -v --diff --dry-run --allow-risky=yes;"
+    },
+    "suggest": {
+        "ext-iconv" : "Needed to ease transcoding CSV using iconv stream filters"
+    }
+}
+```
+
+---
+
+### Ingredientes extra
+
+- Imprescindible si quieres que otros lo utilicen
+  - [Documentación](http://csv.thephpleague.com/8.0/)
+  - [Tests](https://github.com/thephpleague/csv/tree/master/tests)
+  - [Versionamiento Semántico](http://semver.org/lang/es/)
+
+- Extra points
+  - [Badges](https://github.com/thephpleague/csv)
+  - [Changelog](http://csv.thephpleague.com/upgrading/changelog/)
+  - [Web](http://csv.thephpleague.com/)
+
