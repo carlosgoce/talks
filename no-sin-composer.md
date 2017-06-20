@@ -1,14 +1,20 @@
 ---
-title: ¡NO sin Composer!
+title: ¡No sin Composer!
+theme: league
+revealOptions:
+    transition: 'slide'
 ---
 
 # ¡No sin Composer!
 
+<img data-src="resources/composer-logo.png" style="width: 200px;">
 
 <p>[@carlosgoce](https://twitter.com/carlosgoce)</p>
 <small>Developer @ Initios</small>
 
+
 ---
+
 
 ## Mapa
 
@@ -223,6 +229,12 @@ $collection = new Illuminate\Support\Collection([[1, 2, 3]]);
 $writer = new League\Csv\Writer::createFromPath('fichero.csv');
 $writer->insertAll($collection);
 ```
+
+---
+
+¿Donde encuentra composer las dependencias?
+
+- Por defecto, en el repositorio oficial, **packagist.org**
 
 ---
 

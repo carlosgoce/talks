@@ -8,3 +8,8 @@ Made with:
 npm install -g reveal-md
 reveal-md -w
 ```
+
+### Index:
+
+* [¡No sin Composer!](/no-sin-composer.md)
+* [PHP Traits](/php_traits.md)
