@@ -28,6 +28,7 @@ revealOptions:
 3. Crear nuestras propias librerías
     * [Versionamiento Semántico](http://semver.org/lang/es/)
     * Publicación
+4. Bonus
 
 ---
 
@@ -387,5 +388,47 @@ Y subirla a packagist.org
 - Extra points
   - [Badges](https://github.com/thephpleague/csv)
   - [Changelog](http://csv.thephpleague.com/upgrading/changelog/)
+  - [Licencia](https://choosealicense.com/)
   - [Web](http://csv.thephpleague.com/)
 
+---
+
+### Publicar en packagist.org
+
+#### 3 Simples pasos:
+
+1. Sube tu código a [github](github.com)
+2. Revisa las [normas y requisitos](https://packagist.org/about#naming-your-package)
+3. [Envía tu repositorio](https://packagist.org/packages/submit)
+
+---
+
+# Composer CLI
+
+---
+
+```bash
+composer <comando>
+```
+
+<table style="font-size: 30px;">
+    <thead>
+        <tr><th>comando</th><th>descripción</th></tr>
+    </thead>
+    <tbody>
+        <tr><td>install</td><td>instala a partir de un composer.lock o genera uno</td></tr>
+        <tr><td>update</td><td>actualiza a las últimas versiones y actualiza el composer.lock</td></tr>
+        <tr><td>init</td><td>asistente para generar un composer.json</td></tr>
+        <tr><td>dump</td><td>regenera ficheros de autocarga</td></tr>
+        <tr><td>require</td><td>añade un paquete como dependencia a tu composer.json</td></tr>
+        <tr><td>validate</td><td>verifica si tu composer.json es válido</td></tr>
+    </tbody>
+</table>
+
+<smal>[Composer Cheatsheet](http://composer.json.jolicode.com/)</small>
+
+---
+
+# Thank you!
+
+- 20-06-2017 PHPVigo
