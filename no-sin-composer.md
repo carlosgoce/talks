@@ -47,6 +47,39 @@ Algunos gestores de dependencias
 
 ---
 
+# Instalación
+
+---
+
+### Unix
+
+```bash
+curl -sS https://getcomposer.org/installer | php
+
+# Lo movemos al $PATH
+mv composer.phar /usr/local/bin/composer
+```
+
+```bash
+
+➤ composer
+   ______
+  / ____/___  ____ ___  ____  ____  ________  _____
+ / /   / __ \/ __ `__ \/ __ \/ __ \/ ___/ _ \/ ___/
+/ /___/ /_/ / / / / / / /_/ / /_/ (__  )  __/ /
+\____/\____/_/ /_/ /_/ .___/\____/____/\___/_/
+                    /_/
+Composer version 1.4.2 2017-05-17 08:17:52
+```
+
+---
+
+### Windows
+
+[composer.exe](https://getcomposer.org/Composer-Setup.exe)
+
+---
+
 # Autocarga
 
 ---
@@ -295,6 +328,19 @@ $collection = new Illuminate\Support\Collection([[1, 2, 3]]);
 $writer = new League\Csv\Writer::createFromPath('fichero.csv');
 $writer->insertAll($collection);
 ```
+
+---
+
+### [Limitando versiones](https://getcomposer.org/doc/articles/versions.md)
+
+<table>
+    <tr><td>Exacta</td><td>1.0.2</td></tr>
+    <tr><td>Rango</td><td>>1.0.2 <2.0.0</td></tr>
+    <tr><td>Rango (con -)</td><td>1.0 - 2.0</td></tr>
+    <tr><td>Comodín</td><td>1.0.*</td></tr>
+    <tr><td>Tilde</td><td>~1.2</td></tr>
+    <tr><td>Caret (recomendado)</td><td>^1.2</td></tr>
+</table>
 
 ---
 
