@@ -1,0 +1,17 @@
+{
+    "name": "carlosgoce/composer-demo",
+    "description": "De simple de composer",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Carlos Goce",
+            "email": "carlosgoce@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {},
+    "autoload":{
+        "files": ["helpers.php"]
+    }
+}

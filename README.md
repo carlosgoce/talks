@@ -6,5 +6,10 @@ Made with:
 
 ```bash
 npm install -g reveal-md
-reveal-md
+reveal-md -w
 ```
+
+### Index:
+
+* [¡No sin Composer!](/no-sin-composer.md)
+* [PHP Traits](/php_traits.md)
